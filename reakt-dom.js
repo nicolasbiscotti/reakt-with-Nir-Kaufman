@@ -1,5 +1,9 @@
-export function renderElement(element) {
+function renderElement(element) {
   const { type, props, children } = element;
+
+  if (typeof type === 'function') {
+    return renderElement(type(props, children));
+  }
 
   if (typeof type === 'string') {
     const element = document.createElement(type);
@@ -15,3 +19,9 @@ export function renderElement(element) {
     return element;
   }
 }
+
+export default {
+  render: function (element, container) {
+    container.appendChild(renderElement(element));
+  },
+};

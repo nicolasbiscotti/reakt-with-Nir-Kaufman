@@ -1,13 +1,27 @@
-import { createElement as E } from './reakt.js';
-import { renderElement } from './reakt-dom.js';
-const App = E(
+import { createElement } from './reakt.js';
+import ReaktDOM from './reakt-dom.js';
+
+function Title({ label }) {
+  return createElement('h1', null, label);
+}
+
+function Section({ label, text }) {
+  const title = Title({ label });
+  const paragraph = createElement('p', null, text);
+
+  return createElement('div', null, title, paragraph);
+}
+
+const App = createElement(
   'div',
   null,
-  E('h1', null, 'Welcome to Hoops'),
-  E('h2', null, 'Sub title')
+  createElement(Title, { label: 'Welcome to Hoops' }, null),
+  createElement(Section, {
+    label: 'A container',
+    text: 'Just another component be rendered',
+  })
 );
 
-const root = document.querySelector('#app');
-root.appendChild(renderElement(App));
+ReaktDOM.render(App, document.querySelector('#app'));
 
 console.log(App);
